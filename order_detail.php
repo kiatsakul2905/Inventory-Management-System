@@ -1,9 +1,9 @@
 <?php
-require_once 'config.php';
+require_once 'config_neon.php';
 checkLogin();
 
 if (!isset($_GET['id'])) {
-    header("Location: orders.php");
+    header("Location: orders_neon.php");
     exit();
 }
 
@@ -14,26 +14,24 @@ $sql = "SELECT o.*, c.customer_name, c.address, c.phone
         FROM orders o 
         LEFT JOIN customers c ON o.customer_id = c.customer_id 
         WHERE o.order_id = ?";
+
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $order_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$order = $result->fetch_assoc();
+$stmt->execute([$order_id]);
+$order = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$order) {
-    header("Location: orders.php");
+    header("Location: orders_neon.php");
     exit();
 }
-
 // ดึงรายละเอียดสินค้า
 $sql = "SELECT od.*, p.product_code, p.product_name, p.unit 
         FROM order_details od 
         LEFT JOIN products p ON od.product_id = p.product_id 
         WHERE od.order_id = ?";
+
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $order_id);
-$stmt->execute();
-$details = $stmt->get_result();
+$stmt->execute([$order_id]);
+$details = $stmt;
 ?>
 <!DOCTYPE html>
 <html lang="th">
@@ -213,7 +211,7 @@ $details = $stmt->get_result();
     <div class="container">
         <div class="breadcrumb">
             <a href="index.php">🏠 หน้าหลัก</a> / 
-            <a href="orders.php">บันทึกการสั่งซื้อ</a> / 
+            <a href="orders_neon.php">บันทึกการสั่งซื้อ</a> / 
             รายละเอียด
         </div>
         
@@ -278,7 +276,7 @@ $details = $stmt->get_result();
                 <tbody>
                     <?php 
                     $no = 1;
-                    while ($item = $details->fetch_assoc()): 
+                    while ($item = $details->fetch(PDO::FETCH_ASSOC)):
                     ?>
                     <tr>
                         <td><?php echo $no++; ?></td>
@@ -301,7 +299,7 @@ $details = $stmt->get_result();
         
         <div class="print-section">
             <button onclick="printOrder()" class="btn btn-success">🖨️ พิมพ์เอกสาร</button>
-            <a href="orders.php" class="btn btn-secondary">← กลับ</a>
+            <a href="orders_neon.php" class="btn btn-secondary">← กลับ</a>
         </div>
     </div>
 </body>
