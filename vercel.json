@@ -6,6 +6,10 @@
     }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/$1.php" }
+    { "handle": "filesystem" },
+    {
+      "src": "/(.*)",
+      "dest": "/$1.php"
+    }
   ]
 }
