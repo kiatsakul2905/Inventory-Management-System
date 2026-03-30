@@ -45,8 +45,8 @@ try {
 /* ================== FUNCTIONS ================== */
 
 function checkLogin() {
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login_neon.php ");
+    if (!isset($_COOKIE['user_id'])) {
+        header("Location: login_neon.php");
         exit();
     }
 }
