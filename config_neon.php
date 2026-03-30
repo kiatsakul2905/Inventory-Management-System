@@ -10,6 +10,7 @@ if (file_exists($envFile)) {
     }
 }
 
+session_save_path("/tmp");
 session_start();
 
 try {
