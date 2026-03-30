@@ -178,8 +178,8 @@ $stats = fetchOne($conn, $statsQuery);
     <div class="header">
         <h1>🏢 ระบบบริหารจัดการสินค้าคงคลัง <span class="neon-badge">⚡ Neon</span></h1>
         <div class="user-info">
-            ผู้ใช้งาน: <?php echo htmlspecialchars($_SESSION['full_name']); ?> 
-            (<?php echo htmlspecialchars($_SESSION['username']); ?>)
+            ผู้ใช้งาน: <?php echo htmlspecialchars($_COOKIE['full_name'] ?? ''); ?> 
+            (<?php echo htmlspecialchars($_COOKIE['username'] ?? ''); ?>)
         </div>
     </div>
     
